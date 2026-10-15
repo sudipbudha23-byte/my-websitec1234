@@ -1,0 +1,622 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sudip Budha | 3D Developer</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cyan: #00f5ff;
+    --purple: #9b5cff;
+    --bg: #050713;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: white;
+    overflow-x: hidden;
+}
+
+/* Animated Background */
+
+#particles {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+}
+
+.background-glow {
+    position: fixed;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: #6425ff;
+    filter: blur(130px);
+    opacity: 0.25;
+    top: 20%;
+    left: 30%;
+    z-index: -1;
+    animation: glow 8s infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes glow {
+    from {
+        transform: translate(-100px, -50px);
+    }
+    to {
+        transform: translate(200px, 100px);
+    }
+}
+
+/* Navbar */
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 20px 8%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(5, 7, 19, 0.75);
+    backdrop-filter: blur(15px);
+    border-bottom: 1px solid #ffffff15;
+    z-index: 100;
+}
+
+.logo {
+    color: var(--cyan);
+    font-size: 25px;
+    font-weight: bold;
+    text-shadow: 0 0 15px var(--cyan);
+}
+
+nav {
+    display: flex;
+    gap: 25px;
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+nav a:hover {
+    color: var(--cyan);
+    text-shadow: 0 0 12px var(--cyan);
+}
+
+/* Hero */
+
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 130px 8% 70px;
+    gap: 50px;
+    perspective: 1000px;
+}
+
+.hero-content {
+    max-width: 650px;
+    animation: slideIn 1.2s ease both;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-70px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.tag {
+    color: var(--cyan);
+    letter-spacing: 4px;
+    font-size: 12px;
+}
+
+h1 {
+    font-size: clamp(40px, 6vw, 75px);
+    line-height: 1.15;
+    margin: 22px 0;
+}
+
+h1 span {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--cyan);
+    text-shadow: 0 0 30px #00f5ff55;
+}
+
+.hero h2 {
+    font-size: clamp(20px, 3vw, 30px);
+    margin-bottom: 20px;
+}
+
+.hero p {
+    color: #aab4d0;
+    line-height: 1.8;
+}
+
+.buttons {
+    margin-top: 30px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 13px 23px;
+    margin: 5px 10px 5px 0;
+    color: var(--cyan);
+    border: 1px solid var(--cyan);
+    border-radius: 8px;
+    text-decoration: none;
+    transition: 0.4s;
+    box-shadow: inset 0 0 10px #00f5ff10;
+}
+
+.btn:hover {
+    background: var(--cyan);
+    color: #050713;
+    box-shadow: 0 0 25px var(--cyan);
+    transform: translateY(-4px);
+}
+
+/* 3D Orb */
+
+.orb-scene {
+    width: 320px;
+    height: 320px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    perspective: 900px;
+}
+
+.orb {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    transform-style: preserve-3d;
+    animation: float 5s ease-in-out infinite,
+               spin 14s linear infinite;
+}
+
+.orb-core {
+    position: absolute;
+    inset: 35px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 25%,
+        #ffffff, #00f5ff 15%, #4423bc 50%, #080713 80%);
+    box-shadow: 0 0 40px var(--cyan),
+                inset -15px -15px 35px #000,
+                inset 10px 10px 30px #ffffff90;
+    transform: translateZ(30px);
+}
+
+.ring {
+    position: absolute;
+    inset: 0;
+    border: 2px solid var(--cyan);
+    border-radius: 50%;
+    box-shadow: 0 0 20px var(--cyan),
+                inset 0 0 20px #9b5cff88;
+}
+
+.ring-one {
+    transform: rotateX(65deg) rotateY(15deg);
+}
+
+.ring-two {
+    transform: rotateY(65deg) rotateX(20deg);
+    border-color: var(--purple);
+}
+
+.ring-three {
+    transform: rotateX(75deg) rotateZ(65deg);
+    border-color: white;
+}
+
+@keyframes spin {
+    from {
+        transform: rotateY(0deg) rotateX(10deg);
+    }
+    to {
+        transform: rotateY(360deg) rotateX(370deg);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        translate: 0 0;
+    }
+    50% {
+        translate: 0 -20px;
+    }
+}
+
+/* Sections */
+
+section:not(.hero) {
+    padding: 100px 8%;
+}
+
+.section-title {
+    font-size: 38px;
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.section-title span {
+    color: var(--cyan);
+}
+
+/* 3D Cards */
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+    perspective: 1000px;
+}
+
+.card {
+    min-height: 190px;
+    padding: 28px;
+    border: 1px solid #ffffff20;
+    border-radius: 16px;
+    background: linear-gradient(135deg,
+        #151a30cc, #090d1bcc);
+    backdrop-filter: blur(15px);
+    transform-style: preserve-3d;
+    transition: transform 0.15s ease, border-color 0.3s;
+    box-shadow: 0 15px 35px #0005;
+}
+
+.card:hover {
+    border-color: var(--cyan);
+    box-shadow: 0 0 25px #00f5ff25;
+}
+
+.card h3 {
+    color: var(--cyan);
+    margin-bottom: 15px;
+    transform: translateZ(25px);
+}
+
+.card p {
+    color: #aab4d0;
+    line-height: 1.7;
+    transform: translateZ(15px);
+}
+
+.about {
+    max-width: 850px;
+    margin: auto;
+    text-align: center;
+    color: #b7c0d7;
+    line-height: 2;
+}
+
+/* Contact */
+
+.contact {
+    text-align: center;
+    background: linear-gradient(180deg, transparent, #12172a);
+}
+
+footer {
+    padding: 25px;
+    text-align: center;
+    color: #7e8ba8;
+    border-top: 1px solid #ffffff15;
+}
+
+/* Mobile */
+
+@media (max-width: 750px) {
+    header {
+        padding: 15px 5%;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    nav {
+        gap: 14px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    nav a {
+        font-size: 12px;
+    }
+
+    .hero {
+        flex-direction: column;
+        text-align: center;
+        padding-top: 160px;
+    }
+
+    .orb-scene {
+        width: 250px;
+        height: 250px;
+        transform: scale(0.85);
+    }
+
+    section:not(.hero) {
+        padding: 70px 6%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+<div class="background-glow"></div>
+
+<header>
+    <div class="logo">Sudip.dev</div>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+    </nav>
+</header>
+
+<main>
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+        <div class="tag">STUDENT • DEVELOPER • AI ENTHUSIAST</div>
+
+        <h1>Hello, I'm<br><span>Sudip Budha</span></h1>
+
+        <h2>Web Developer & AI Developer</h2>
+
+        <p>
+            Class 11 student from Nepal, exploring Artificial
+            Intelligence, Python, web development and computer vision.
+            I build digital projects to turn ideas into reality.
+        </p>
+
+        <div class="buttons">
+            <a href="#projects" class="btn">Explore Projects ↗</a>
+            <a href="#about" class="btn">Discover Me</a>
+        </div>
+    </div>
+
+    <div class="orb-scene">
+        <div class="orb">
+            <div class="orb-core"></div>
+            <div class="ring ring-one"></div>
+            <div class="ring ring-two"></div>
+            <div class="ring ring-three"></div>
+        </div>
+    </div>
+
+</section>
+
+<section id="about">
+    <h2 class="section-title">About <span>Me</span></h2>
+
+    <div class="about">
+        I'm Sudip Budha, a Class 11 student at Shree Jana Model
+        School, Birendranagar-6, Surkhet, Nepal. I am interested
+        in programming, artificial intelligence and modern
+        website experiences. My goal is to keep learning and
+        create useful technology projects.
+    </div>
+</section>
+
+<section id="skills">
+    <h2 class="section-title">My <span>Skills</span></h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>01 / HTML & CSS</h3>
+            <p>Responsive websites, animations and modern UI design.</p>
+        </div>
+
+        <div class="card">
+            <h3>02 / Python</h3>
+            <p>Programming, automation and application development.</p>
+        </div>
+
+        <div class="card">
+            <h3>03 / Artificial Intelligence</h3>
+            <p>Exploring local language models and smart assistants.</p>
+        </div>
+
+        <div class="card">
+            <h3>04 / Computer Vision</h3>
+            <p>Learning OpenCV, image processing and object detection.</p>
+        </div>
+    </div>
+</section>
+
+<section id="projects">
+    <h2 class="section-title">Featured <span>Projects</span></h2>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Nepali Festivals</h3>
+            <p>An educational website about Nepali festivals,
+            culture and traditions.</p>
+            <br>
+            <a class="btn"
+               href="https://sudipbudha23-byte.github.io/nepali-festivals/"
+               target="_blank" rel="noopener noreferrer">
+                View Project ↗
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>Smart AI Assistant</h3>
+            <p>A local AI learning project using Python, Flask
+            and Ollama.</p>
+        </div>
+
+        <div class="card">
+            <h3>AI Person Detection</h3>
+            <p>A computer vision project exploring person
+            detection using Python and OpenCV.</p>
+        </div>
+
+        <div class="card">
+            <h3>Mask Detection AI</h3>
+            <p>A learning project involving face detection
+            and image classification.</p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <h2 class="section-title">Let's <span>Connect</span></h2>
+
+    <p>Learning today. Building tomorrow.</p>
+
+    <br>
+
+    <a class="btn"
+       href="https://github.com/sudipbudha23-byte"
+       target="_blank" rel="noopener noreferrer">
+        GitHub Profile ↗
+    </a>
+</section>
+
+</main>
+
+<footer>
+    © 2026 Sudip Budha | Web Developer
+          SB999
+</footer>
+
+<script>
+// Animated 3D-style particle background
+
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let width, height;
+
+function resizeCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+
+    const count = Math.min(90, Math.floor(width / 15));
+
+    particles = Array.from({ length: count }, () => ({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        z: Math.random() * 2 + 0.5,
+        radius: Math.random() * 1.8 + 0.5,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4
+    }));
+}
+
+function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+
+    particles.forEach((p, i) => {
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius * p.z, 0, Math.PI * 2);
+        ctx.fillStyle = "#00f5ff";
+        ctx.globalAlpha = 0.65;
+        ctx.fill();
+
+        for (let j = i + 1; j < particles.length; j++) {
+            const q = particles[j];
+            const dx = p.x - q.x;
+            const dy = p.y - q.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < 105) {
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(q.x, q.y);
+                ctx.strokeStyle = "#00f5ff";
+                ctx.globalAlpha = (1 - distance / 105) * 0.22;
+                ctx.stroke();
+            }
+        }
+    });
+
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(animateParticles);
+}
+
+resizeCanvas();
+animateParticles();
+
+window.addEventListener("resize", resizeCanvas);
+
+// Interactive 3D card tilt
+
+const supportsHover = window.matchMedia(
+    "(hover: hover) and (pointer: fine)"
+).matches;
+
+if (supportsHover) {
+    document.querySelectorAll(".card").forEach(card => {
+        card.addEventListener("mousemove", event => {
+            const rect = card.getBoundingClientRect();
+
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            const rotateY = ((x / rect.width) - 0.5) * 12;
+            const rotateX = ((y / rect.height) - 0.5) * -12;
+
+            card.style.transform =
+                `rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+        });
+
+        card.addEventListener("mouseleave", () => {
+            card.style.transform = "rotateX(0) rotateY(0)";
+        });
+    });
+}
+</script>
+
+</body>
+</html>
